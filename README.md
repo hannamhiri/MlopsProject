@@ -11,3 +11,6 @@
 7. Update the pipeline 
 8. Update the main.py
 9. Update the app.py
+
+ repos for data 
+ https://github.com/hannamhiri/car-accident-dataset/raw/main/Road_Accident_Data.zip
