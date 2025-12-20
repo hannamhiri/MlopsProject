@@ -1,1 +1,4 @@
-key : val
+RandomForest:
+  n_estimators: 200
+  max_depth: 20
+  
