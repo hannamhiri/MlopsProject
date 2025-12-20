@@ -12,9 +12,14 @@ class ModelTrainerTrainingPipeline:
 
     def main(self):
         config = ConfigurationManager()
-        model_trainer_config = config.get_model_trainer_config()
-        model_trainer_config = ModelTrainer(config=model_trainer_config)
-        model_trainer_config.train()
+        model_trainer_config_obj = config.get_model_trainer_config()  # config spécifique du trainer
+        all_params = config.get_all_model_params()  # méthode à créer ou utiliser pour récupérer les params du YAML
+
+        model_trainer = ModelTrainer(
+            config=model_trainer_config_obj,
+            all_params=all_params
+        )
+        model_trainer.train()
 
 
 

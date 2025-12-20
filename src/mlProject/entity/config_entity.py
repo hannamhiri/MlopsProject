@@ -30,9 +30,8 @@ class ModelTrainerConfig:
     train_data_path: Path
     test_data_path: Path
     model_name: str
-    n_estimators: int
-    max_depth: int
     target_column: str
+    all_params: dict  # contient les params de tous les modèles
     
 
 @dataclass(frozen=True)

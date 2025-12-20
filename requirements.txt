@@ -10,6 +10,9 @@ tqdm
 ensure==1.0.2
 imbalanced-learn==0.10.1
 joblib
+xgboost 
+lightgbm 
+catboost
 types-PyYAML
 Flask
 Flask-Cors
