@@ -1,0 +1,18 @@
+RandomForest:
+  n_estimators: 200
+  max_depth: 20
+
+XGBoost:
+  n_estimators: 200
+  max_depth: 6
+  
+
+LightGBM:
+  n_estimators: 200
+  max_depth: 6
+  
+
+CatBoost:
+  iterations: 200
+  depth: 6
+
