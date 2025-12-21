@@ -38,7 +38,7 @@ class ModelTrainerConfig:
 class ModelEvaluationConfig:
     root_dir: Path
     test_data_path: Path
-    model_path: Path
+    model_dir: Path              
     all_params: dict
     metric_file_name: Path
     target_column: str

@@ -15,7 +15,6 @@ class ModelEvaluationTrainingPipeline:
         model_evaluation_config.log_into_mlflow()
 
 
-
 if __name__ == '__main__':
     try:
         logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
