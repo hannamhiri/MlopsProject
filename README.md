@@ -12,5 +12,16 @@
 8. Update the main.py
 9. Update the app.py
 
- repos for data 
- https://github.com/hannamhiri/car-accident-dataset/raw/main/Road_Accident_Data.zip
+# Cloner le dépôt et se déplacer dans le dossier
+git clone https://github.com/hannamhiri/MlopsProject.git
+cd MlopsProject
+
+# Activer l'environnement virtuel (nommé "base")
+# Windows
+base\Scripts\activate
+
+# Installer les dépendances
+pip install -r requirements.txt
+
+# Lancer le projet
+python main.py
