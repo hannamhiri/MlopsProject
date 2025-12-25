@@ -64,13 +64,15 @@ class Preprocessor:
         return X_test
 
     def save(self, filepath="preprocessor.pkl"):
-        joblib.dump({
+        preprocessor_dict = {
             "num_cols": self.num_cols,
             "cat_cols": self.cat_cols,
-            "label_encoders": self.label_encoders,
-            "drop_cols": self.drop_cols
-        }, filepath)
-        print(f"Preprocessor sauvegardé dans {filepath} !")
+            "drop_cols": self.drop_cols,
+            "label_encoders": self.label_encoders
+        }
+        joblib.dump(preprocessor_dict, filepath)
+        print(f"Preprocessor sauvegardé sous forme de dict dans {filepath}")
+
 
 class DataTransformation:
     def __init__(self, config, target: str):
