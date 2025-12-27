@@ -5,9 +5,11 @@ pipeline {
         // MLflow distant
         MLFLOW_TRACKING_URI = "https://dagshub.com/hannamhiri/MlopsProject.mlflow"
         MLFLOW_TRACKING_USERNAME = "hannamhiri"
-        MLFLOW_TRACKING_PASSWORD = "d818c76624661ed3e44ed5cd15bb08d94c4d"
+        MLFLOW_TRACKING_PASSWORD = "d818c76624661ed3e44ed5cd15bb08d17cd94c4d"
+
+        // Variables Docker
         DOCKER_IMAGE = "customer-churn-app:latest"
-        PATH = "/usr/bin:${env.PATH}"
+       
     }
 
     stages {
@@ -59,14 +61,15 @@ pipeline {
         }
 
         stage('Build Docker Image') {
-            agent any
+            agent any  // Utilise le host, pas le conteneur python
             steps {
+                echo "Building Docker image..."
                 sh "docker build -t ${DOCKER_IMAGE} ."
             }
         }
 
         stage('Deploy Flask App') {
-            agent any
+            agent any  // Utilise le host pour lancer le conteneur
             steps {
                 echo "Deploying Flask app..."
                 // Arrêter conteneur existant (si présent)
