@@ -33,6 +33,13 @@ pipeline {
             }
         }
 
+        stage('Run ML Pipeline') {
+            steps {
+                echo "Running ML pipeline..."
+                sh '. venv/bin/activate && python main.py'
+            }
+        }
+
         stage('Run Unit Tests') {
             steps {
                 echo "Running Pytest for UC..."
@@ -40,12 +47,7 @@ pipeline {
             }
         }
 
-        stage('Run ML Pipeline') {
-            steps {
-                echo "Running ML pipeline..."
-                sh '. venv/bin/activate && python main.py'
-            }
-        }
+        
 
         stage('Build Docker Image') {
             steps {
