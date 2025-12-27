@@ -5,7 +5,7 @@ pipeline {
         // MLflow distant
         MLFLOW_TRACKING_URI = "https://dagshub.com/hannamhiri/MlopsProject.mlflow"
         MLFLOW_TRACKING_USERNAME = "hannamhiri"
-        MLFLOW_TRACKING_PASSWORD = credentials('DAGSHUB_TOKEN')
+        MLFLOW_TRACKING_PASSWORD = "d818c76624661ed3e44ed5cd15bb08d17cd94c4d"
 
         // Variables Docker (optionnel)
         DOCKER_IMAGE = "customer-churn-app:latest"
