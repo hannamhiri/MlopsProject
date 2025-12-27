@@ -13,6 +13,7 @@ pipeline {
 
         // Variables Docker (optionnel)
         DOCKER_IMAGE = "customer-churn-app:latest"
+        PATH = "/usr/bin:${env.PATH}"
     }
 
     stages {
@@ -47,7 +48,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo "Building Docker image..."
-                sh "docker build -t ${DOCKER_IMAGE} ."
+                sh "/usr/bin/docker build -t ${DOCKER_IMAGE} ."
             }
         }
 
