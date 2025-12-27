@@ -22,23 +22,22 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
-            agent {
-                docker { image 'python:3.11-slim' }
-            }
-            steps {
-                echo "Installing system dependencies..."
-                sh 'apt-get update && apt-get install -y libgomp1'
+    
 
-                echo "Setting up Python virtual environment..."
+        stage('Install Dependencies & Run ML Pipeline') {
+
+            agent { docker { image 'python:3.11-slim' } }
+                steps {
+                sh 'apt-get update && apt-get install -y libgomp1 build-essential'
                 sh 'python -m venv venv'
                 sh '. venv/bin/activate && pip install --upgrade pip'
                 sh '. venv/bin/activate && pip install -r requirements.txt'
+                sh '. venv/bin/activate && python main.py'
             }
         }
 
 
-        stage('Run ML Pipeline') {
+        /*stage('Run ML Pipeline') {
             agent {
                 docker { image 'python:3.11-slim' }
             }
@@ -46,9 +45,10 @@ pipeline {
                 echo "Running ML pipeline..."
                 sh '. venv/bin/activate && python main.py'
             }
-        }
+        }*/
 
-        
+
+
 
         stage('Run Unit Tests') {
             agent {
