@@ -31,7 +31,7 @@ class ModelTrainerConfig:
     test_data_path: Path
     model_name: str
     target_column: str
-    all_params: dict  # contient les params de tous les modèles
+    all_params: dict  
     
 
 @dataclass(frozen=True)

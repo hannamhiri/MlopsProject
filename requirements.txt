@@ -13,6 +13,7 @@ joblib
 xgboost 
 lightgbm 
 catboost
+pytest
 types-PyYAML
 Flask
 Flask-Cors
