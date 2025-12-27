@@ -1,13 +1,11 @@
 pipeline {
-    agent any
+    agent none
 
     environment {
         // MLflow distant
         MLFLOW_TRACKING_URI = "https://dagshub.com/hannamhiri/MlopsProject.mlflow"
         MLFLOW_TRACKING_USERNAME = "hannamhiri"
-        MLFLOW_TRACKING_PASSWORD = "d818c76624661ed3e44ed5cd15bb08d17cd94c4d"
-
-        // Variables Docker (optionnel)
+        MLFLOW_TRACKING_PASSWORD = "d818c76624661ed3e44ed5cd15bb08d94c4d"
         DOCKER_IMAGE = "customer-churn-app:latest"
         PATH = "/usr/bin:${env.PATH}"
     }
@@ -15,6 +13,7 @@ pipeline {
     stages {
 
         stage('Checkout') {
+            agent any
             steps {
                 echo "Cloning repository..."
                 git branch: 'main', url: 'https://github.com/hannamhiri/MlopsProject'
@@ -22,6 +21,9 @@ pipeline {
         }
 
         stage('Install Dependencies') {
+            agent {
+                docker { image 'python:3.11-slim' }
+            }
             steps {
                 echo "Installing system dependencies..."
                 sh 'apt-get update && apt-get install -y libgomp1'
@@ -35,31 +37,36 @@ pipeline {
 
 
         stage('Run ML Pipeline') {
+            agent {
+                docker { image 'python:3.11-slim' }
+            }
             steps {
                 echo "Running ML pipeline..."
                 sh '. venv/bin/activate && python main.py'
             }
         }
 
-        stage('Build Docker Image') {
-            steps {
-                echo "Building Docker image..."
-                sh "/usr/bin/docker build -t ${DOCKER_IMAGE} ."
-            }
-        }
+        
 
         stage('Run Unit Tests') {
+            agent {
+                docker { image 'python:3.11-slim' }
+            }
             steps {
                 echo "Running Pytest for UC..."
                 sh '. venv/bin/activate && pytest tests/ --maxfail=1 --disable-warnings -q'
             }
         }
 
-        
-
-
+        stage('Build Docker Image') {
+            agent any
+            steps {
+                sh "docker build -t ${DOCKER_IMAGE} ."
+            }
+        }
 
         stage('Deploy Flask App') {
+            agent any
             steps {
                 echo "Deploying Flask app..."
                 // Arrêter conteneur existant (si présent)
