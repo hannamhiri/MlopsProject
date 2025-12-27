@@ -27,6 +27,7 @@ list_of_files = [
     "app.py",
     "Dockerfile",
     "Jenkinsfile",
+    "deployment.yaml",
     "requirements.txt",
     "setup.py",
     "research/trials.ipynb",

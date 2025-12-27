@@ -2,18 +2,19 @@ pipeline {
     agent none
 
     environment {
-        // MLflow distant
         MLFLOW_TRACKING_URI = "https://dagshub.com/hannamhiri/MlopsProject.mlflow"
         MLFLOW_TRACKING_USERNAME = "hannamhiri"
         MLFLOW_TRACKING_PASSWORD = "d818c76624661ed3e44ed5cd15bb08d17cd94c4d"
 
-        // Variables Docker
-        DOCKER_IMAGE = "customer-churn-app:latest"
-       
+        APP_NAME = "customer-churn-app"
+        DOCKER_REGISTRY = "hana367"
+        IMAGE_TAG = "${BUILD_NUMBER}"
+        FULL_IMAGE = "${DOCKER_REGISTRY}/${APP_NAME}:${IMAGE_TAG}"
     }
 
     stages {
 
+        /* ===================== */
         stage('Checkout') {
             agent any
             steps {
@@ -22,72 +23,83 @@ pipeline {
             }
         }
 
-    
-
-        stage('Install Dependencies & Run ML Pipeline') {
-
-            agent { docker { image 'python:3.11-slim' } }
-                steps {
-                sh 'apt-get update && apt-get install -y libgomp1 build-essential'
-                sh 'python -m venv venv'
-                sh '. venv/bin/activate && pip install --upgrade pip'
-                sh '. venv/bin/activate && pip install -r requirements.txt'
-                sh '. venv/bin/activate && python main.py'
+        /* ===================== */
+        stage('ML Pipeline & Training') {
+            agent { docker { image 'python:3.11' } }
+            steps {
+                sh '''
+                apt-get update
+                apt-get install -y libgomp1 build-essential
+                python -m venv venv
+                . venv/bin/activate
+                pip install --upgrade pip
+                pip install -r requirements.txt
+                python main.py
+                '''
             }
         }
 
-
-        /*stage('Run ML Pipeline') {
-            agent {
-                docker { image 'python:3.11-slim' }
-            }
-            steps {
-                echo "Running ML pipeline..."
-                sh '. venv/bin/activate && python main.py'
-            }
-        }*/
-
-
-
-
+        /* ===================== */
         stage('Run Unit Tests') {
-            agent {
-                docker { image 'python:3.11-slim' }
-            }
+            agent { docker { image 'python:3.11' } }
             steps {
-                echo "Running Pytest for UC..."
-                sh '. venv/bin/activate && pytest tests/ --maxfail=1 --disable-warnings -q'
+                sh '''
+                python -m venv venv
+                . venv/bin/activate
+                pip install -r requirements.txt
+                pytest tests/ --maxfail=1 --disable-warnings -q
+                '''
             }
         }
 
+        /* ===================== */
         stage('Build Docker Image') {
-            agent any  // Utilise le host, pas le conteneur python
+            agent any
             steps {
-                echo "Building Docker image..."
-                sh "docker build -t ${DOCKER_IMAGE} ."
+                sh "docker build -t ${FULL_IMAGE} ."
             }
         }
 
-        stage('Deploy Flask App') {
-            agent any  // Utilise le host pour lancer le conteneur
+        /* ===================== */
+        stage('Push Docker Image') {
+            agent any
             steps {
-                echo "Deploying Flask app..."
-                // Arrêter conteneur existant (si présent)
-                sh "docker rm -f customer-churn-app || true"
-                // Lancer le nouveau conteneur
-                sh "docker run -d --name customer-churn-app -p 8080:8080 ${DOCKER_IMAGE}"
+                withDockerRegistry(
+                    credentialsId: 'dockerhub-creds',
+                    url: 'https://index.docker.io/v1/'
+                ) {
+                    sh "docker push ${FULL_IMAGE}"
+                }
+            }
+        }
+
+        /* ===================== */
+        stage('Deploy to Kubernetes') {
+            agent {
+                docker {
+                    image 'bitnami/kubectl:latest'
+                    args '--entrypoint=""'
+                    reuseNode true
+                }
+            }
+            steps {
+                withKubeConfig([credentialsId: 'k8s-config']) {
+                    sh '''
+                    sed -i "s|image: .*|image: ${FULL_IMAGE}|g" CI-CD/k8s/deployment.yaml
+                    kubectl apply -f CI-CD/k8s/
+                    kubectl rollout status deployment/${APP_NAME}
+                    '''
+                }
             }
         }
     }
 
     post {
         success {
-            echo 'Pipeline succeeded!'
-            // Optionnel : notification Slack ou email
+            echo "✅ Déploiement Kubernetes réussi"
         }
         failure {
-            echo 'Pipeline failed!'
-            // Optionnel : notification Slack ou email
+            echo "❌ Pipeline échoué"
         }
     }
 }

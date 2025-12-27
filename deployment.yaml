@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customer-churn-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: customer-churn-app
+  template:
+    metadata:
+      labels:
+        app: customer-churn-app
+    spec:
+      containers:
+      - name: app
+        image: hannamhiri/customer-churn-app:latest
+        ports:
+        - containerPort: 8080
