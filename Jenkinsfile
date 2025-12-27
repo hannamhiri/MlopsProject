@@ -26,12 +26,16 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                echo "Installing Python dependencies..."
+                echo "Installing system dependencies..."
+                sh 'apt-get update && apt-get install -y libgomp1'
+
+                echo "Setting up Python virtual environment..."
                 sh 'python -m venv venv'
                 sh '. venv/bin/activate && pip install --upgrade pip'
                 sh '. venv/bin/activate && pip install -r requirements.txt'
             }
         }
+
 
         stage('Run ML Pipeline') {
             steps {
