@@ -44,6 +44,13 @@ pipeline {
             }
         }
 
+        stage('Build Docker Image') {
+            steps {
+                echo "Building Docker image..."
+                sh "docker build -t ${DOCKER_IMAGE} ."
+            }
+        }
+
         stage('Run Unit Tests') {
             steps {
                 echo "Running Pytest for UC..."
@@ -53,12 +60,7 @@ pipeline {
 
         
 
-        stage('Build Docker Image') {
-            steps {
-                echo "Building Docker image..."
-                sh "docker build -t ${DOCKER_IMAGE} ."
-            }
-        }
+
 
         stage('Deploy Flask App') {
             steps {
