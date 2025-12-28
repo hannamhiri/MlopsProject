@@ -15,17 +15,7 @@ The project follows a structured pipeline as seen in the repository's logic [2]:
 *   **MLOps Layer**: Evaluation and MLflow Tracking, followed by **Automatic Best Model Selection**.
 *   **Deployment Layer**: Flask API, Docker Containerization, and Kubernetes Orchestration.
 
-mermaid
-flowchart LR
-    A[Data Source] --> B[Data Ingestion]
-    B --> C[Data Validation]
-    C --> D[Data Transformation]
-    D --> E[Model Training]
-    E --> F[Model Evaluation & MLflow Tracking]
-    F --> G[Best Model Selection]
-    G --> H[Flask API]
-    H --> I[Docker Container]
-    I --> J[Kubernetes Deployment]
+
 
 ## 📂 Repository Structure
 The project is organized to separate research from production-ready code [3]:
