@@ -1,29 +1,40 @@
-# MlopsProject
+# Customer Churn Prediction - MLOps Project
 
-## Workflows
+[![Python](https://img.shields.io/badge/python-3.11-blue)](https://www.python.org/)
+[![Build Status](https://img.shields.io/jenkins/build?job=customer-churn-app)](http://your-jenkins-url)
+[![Docker](https://img.shields.io/badge/docker-hana367%2Fcustomer--churn--app-blue)](https://hub.docker.com/repository/docker/hana367/customer-churn-app)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-1. Update config.yaml
-2. Update schema.yaml
-3. Update params.yaml
-4. Update the entity
-5. Update the configuration manager in src config
-6. Update the components
-7. Update the pipeline 
-8. Update the main.py
-9. Update the app.py
+---
 
-# repo for data : https://github.com/hannamhiri/ecommerce_customer_churn_dataset
+## **Présentation**
+Ce projet implémente un modèle de prédiction du **churn client** avec une architecture **MLOps complète**, incluant :  
 
-# Cloner le dépôt et se déplacer dans le dossier
-git clone https://github.com/hannamhiri/MlopsProject.git
-cd MlopsProject
+- Suivi des expériences avec **MLflow**  
+- Modèle ML pour prédire le churn des clients  
+- API **Flask** pour la prédiction en temps réel  
+- Pipeline CI/CD avec **Jenkins**, **Docker** et **Kubernetes**  
+- Sélection automatique du **meilleur modèle** basé sur le **ROC-AUC**
 
-# Activer l'environnement virtuel (nommé "base")
-# Windows
-base\Scripts\activate
+---
 
-# Installer les dépendances
-pip install -r requirements.txt
+## **Objectifs**
+1. Collecte et préparation des données clients  
+2. Prédiction du churn client  
+3. Déploiement automatisé avec CI/CD  
+4. Suivi des modèles et sélection du meilleur avec MLflow  
 
-# Lancer le projet
-python main.py
+---
+
+## **Architecture du projet**
+```mermaid
+flowchart LR
+    A[Data Source] --> B[Data Ingestion]
+    B --> C[Data Validation]
+    C --> D[Data Transformation]
+    D --> E[Model Training]
+    E --> F[Model Evaluation & MLflow Tracking]
+    F --> G[Best Model Selection]
+    G --> H[Flask API]
+    H --> I[Docker Container]
+    I --> J[Kubernetes Deployment]
