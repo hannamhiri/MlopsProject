@@ -6,16 +6,16 @@ from mlProject.pipeline.prediction import PredictionPipeline
 
 app = Flask(__name__)  # initializing a flask app
 
-@app.route('/', methods=['GET'])  # route to display the home page
+@app.route('/', methods=['GET'])  
 def homePage():
     return render_template("index.html")
 
-@app.route('/train', methods=['GET'])  # route to train the pipeline
+@app.route('/train', methods=['GET'])  
 def training():
     os.system("python main.py")
     return "Training Successful!" 
 
-@app.route('/predict', methods=['POST', 'GET'])  # route to show the predictions in a web UI
+@app.route('/predict', methods=['POST', 'GET'])  
 def index():
     if request.method == 'POST':
         try:

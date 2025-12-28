@@ -28,10 +28,7 @@ pipeline {
             agent { docker { image 'python:3.11' } }
             steps {
                 sh '''
-                apt-get update
-                apt-get install -y libgomp1 build-essential
-                python -m venv venv
-                . venv/bin/activate
+                apt-get update && apt-get install -y libgomp1 build-essential && rm -rf /var/lib/apt/lists/*
                 pip install --upgrade pip
                 pip install -r requirements.txt
                 python main.py
@@ -84,11 +81,11 @@ pipeline {
             }
             steps {
                 withKubeConfig([credentialsId: 'k8s-config']) {
-                    sh '''
-                    sed -i "s|image: .*|image: ${FULL_IMAGE}|g" CI-CD/k8s/deployment.yaml
-                    kubectl apply -f CI-CD/k8s/
+                    sh """
+                    sed -i "s|image: ${DOCKER_REGISTRY}/${APP_NAME}:.*|image: ${FULL_IMAGE}|g" deployment.yaml
+                    kubectl apply -f deployment.yaml
                     kubectl rollout status deployment/${APP_NAME}
-                    '''
+                    """
                 }
             }
         }
