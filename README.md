@@ -1,11 +1,8 @@
 # Customer Churn Prediction - MLOps Project
 
-[![Python](https://img.shields.io/badge/python-3.11-blue)](https://www.python.org/)
-[![Build Status](https://img.shields.io/jenkins/build?job=customer-churn-app)](http://your-jenkins-url)
-[![Docker](https://img.shields.io/badge/docker-hana367%2Fcustomer--churn--app-blue)](https://hub.docker.com/repository/docker/hana367/customer-churn-app)
-[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
----
+
+
 
 ## **Présentation**
 Ce projet implémente un modèle de prédiction du **churn client** avec une architecture **MLOps complète**, incluant :  
