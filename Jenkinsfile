@@ -28,7 +28,10 @@ pipeline {
             agent { docker { image 'python:3.11' } }
             steps {
                 sh '''
-                apt-get update && apt-get install -y libgomp1 build-essential && rm -rf /var/lib/apt/lists/*
+                apt-get update
+                apt-get install -y libgomp1 build-essential
+                python -m venv venv
+                . venv/bin/activate
                 pip install --upgrade pip
                 pip install -r requirements.txt
                 python main.py
@@ -89,6 +92,8 @@ pipeline {
                 }
             }
         }
+    }
+
     }
 
     post {
