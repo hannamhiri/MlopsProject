@@ -30,6 +30,7 @@ list_of_files = [
     "deployment.yaml",
     "requirements.txt",
     "setup.py",
+    "select_best_model.py",
     "research/trials.ipynb",
     "templates/index.html",
     "tests/test_prediction.py"
