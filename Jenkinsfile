@@ -40,6 +40,18 @@ pipeline {
         }
 
         /* ===================== */
+        stage('Select Best Model') {
+            agent { docker { image 'python:3.11' } }
+            steps {
+                sh '''
+                . venv/bin/activate
+                python select_best_model.py
+                '''
+            }
+        }
+
+
+        /* ===================== */
         stage('Run Unit Tests') {
             agent { docker { image 'python:3.11' } }
             steps {
