@@ -65,7 +65,7 @@ pipeline {
             agent any
             steps {
                 withDockerRegistry(
-                    credentialsId: 'dockerhub-creds',
+                    credentialsId: 'DOCKER_HUB',
                     url: 'https://index.docker.io/v1/'
                 ) {
                     sh "docker push ${FULL_IMAGE}"
