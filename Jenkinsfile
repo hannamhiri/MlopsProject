@@ -97,6 +97,7 @@ pipeline {
             steps {
                 withKubeConfig([credentialsId: 'k8s-config']) {
                     sh """
+                    kubectl config use-context docker-desktop
                     sed -i "s|image: ${DOCKER_REGISTRY}/${APP_NAME}:.*|image: ${FULL_IMAGE}|g" deployment.yaml
                     kubectl apply -f deployment.yaml
                     kubectl rollout status deployment/${APP_NAME}
