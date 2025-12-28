@@ -32,20 +32,32 @@ The project is organized to separate research from production-ready code [3]:
 ```bash
 git clone https://github.com/hannamhiri/MlopsProject.git
 cd MlopsProject
-2. Environment Configuration
+```
+### 2. Environment Configuration
+```bash
 (Standard practice recommendation)
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
-3. Install Dependencies
+```
+### 3. Install Dependencies
+```bash
 pip install -r requirements.txt
 python setup.py install
-4. Execute the Pipeline
+```
+
+### 4. Execute the Pipeline
 To run the full training and evaluation workflow:
+```bash
 python main.py
-5. Launch the Web API
+```
+
+### 5. Launch the Web API
 To start the Flask application for real-time predictions:
+```bash
 python app.py
-🚀 CI/CD & Deployment
+```
+
+## 🚀 CI/CD & Deployment
 The project leverages industry-standard tools for continuous integration and deployment:
 • MLflow: For tracking experiments and model versions.
 • Jenkins: Orchestrates the CI/CD pipeline via the Jenkinsfile.
