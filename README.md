@@ -76,6 +76,18 @@ The project leverages industry-standard tools for continuous integration and dep
 - **Docker**: Packages the application via the Dockerfile.
 - **Kubernetes**: Handles final deployment using `deployment.yaml`.
 
+## 🖥️ For local testing 
 
-
-
+After building and pushing the Docker image, you can 
+### deploy the application to your local Kubernetes cluster
+```bash
+kubectl apply -f deployment.yaml  # Assurez-vous que l'image Docker est disponible sous votre compte Docker Hub
+```
+### Forward the container port to your local machine:
+```bash
+kubectl port-forward deployment/customer-churn-app 8080:8080
+```
+### Open your browser and navigate to:
+```bash
+http://localhost:8080
+```
